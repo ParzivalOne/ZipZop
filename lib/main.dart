@@ -1,12 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:zipzop/chat_screen.dart';
 
 void main (){
+    runApp(MaterialApp(
+      home: MyApp(),
+      debugShowCheckedModeBanner: false,
+    ));
 
-  Firestore.instance.collection("col").document("doc").setData({"texto" : "parzival"});
-
-  runApp(MyApp());
+/*    Firestore.instance.collection("mensagens").document().setData({""
+        "texto" : "Olá!",
+        "from" : "Parzival",
+        "read" : false
+    });*/
 }
 
 class MyApp extends StatelessWidget {
@@ -15,9 +22,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Flutter demo",
       theme: ThemeData(
-        primarySwatch: Colors.black,
+        primarySwatch: Colors.blue,
+        iconTheme: IconThemeData(
+          color: Colors.blue
+        )
       ),
-      home: Container()
+      home: ChatScreen()
     );
   }
 }
