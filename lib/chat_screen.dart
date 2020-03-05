@@ -79,7 +79,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     if(imgFile != null){
       StorageUploadTask task = FirebaseStorage.instance.ref().child(
-        DateTime.now().millisecondsSinceEpoch.toString()
+        user.uid + DateTime.now().millisecondsSinceEpoch.toString()
       ).putFile(imgFile);
 
       setState(() {
@@ -126,7 +126,17 @@ class _ChatScreenState extends State<ChatScreen> {
                 )
               );
             }
-          ) : Container()
+          ) : IconButton(
+              icon: Icon(Icons.supervisor_account),
+              onPressed: (){
+                _getUser();
+                _currentUser !=  null ? _scaffoldKey.currentState.showSnackBar(
+                     SnackBar(
+                      content: Text('Conectado com sucesso!'),
+                    )
+                ) : null;
+              }
+          )
         ],
       ),
       body: Column(
