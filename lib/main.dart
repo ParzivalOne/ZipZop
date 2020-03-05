@@ -5,8 +5,8 @@ import 'package:zipzop/chat_screen.dart';
 
 void main (){
     runApp(MaterialApp(
-      home: MyApp(),
       debugShowCheckedModeBanner: false,
+      home: MyApp(),
     ));
 
 /*    Firestore.instance.collection("mensagens").document().setData({""
@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Flutter app",
+        debugShowCheckedModeBanner: false,
+        title: "Flutter app",
       theme: ThemeData(
         primarySwatch: Colors.blue,
         iconTheme: IconThemeData(

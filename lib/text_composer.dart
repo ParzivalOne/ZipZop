@@ -1,6 +1,14 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class TextComposer extends StatefulWidget {
+
+  TextComposer(this.sendMessage);
+  final Function({String text, File imgFile}) sendMessage;
+
   @override
   _TextComposerState createState() => _TextComposerState();
 }
@@ -8,6 +16,14 @@ class TextComposer extends StatefulWidget {
 class _TextComposerState extends State<TextComposer> {
 
   bool _isComposing = false;
+  final TextEditingController _controller = TextEditingController();
+
+  void _reset(){
+    _controller.clear();
+    setState(() {
+      _isComposing = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +33,15 @@ class _TextComposerState extends State<TextComposer> {
         children: <Widget>[
           IconButton(
             icon: Icon(Icons.photo_camera),
-            onPressed: (){
-
+            onPressed: () async{
+              final File imgFile = await ImagePicker.pickImage(source: ImageSource.camera);
+              if(imgFile == null) return;
+              widget.sendMessage(imgFile : imgFile);
             },
           ),
           Expanded(
             child: TextField(
+              controller: _controller,
               decoration: InputDecoration.collapsed(hintText: "Enviar Uma Mensagem"),
               onChanged: (text){
                 setState(() {
@@ -30,14 +49,16 @@ class _TextComposerState extends State<TextComposer> {
                 });
               },
               onSubmitted: (text){
-
+                widget.sendMessage(text : text);
+                _reset();
               },
             ),
           ),
           IconButton(
             icon: Icon(Icons.send),
             onPressed: _isComposing ? (){
-
+              widget.sendMessage(text : _controller.text);
+              _reset();
             } : null,
           )
         ],
